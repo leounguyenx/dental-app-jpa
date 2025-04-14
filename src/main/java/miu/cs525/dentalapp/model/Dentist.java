@@ -1,8 +1,6 @@
 package miu.cs525.dentalapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,10 +12,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "dentists")
 public class Dentist {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String dentistId;
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private String specialization;
+
+    public Dentist(String dentistName) {
+    }
 }

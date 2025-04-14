@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -37,4 +38,7 @@ public class Appointment {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "request_id", unique = true, nullable = true)
     private Request request;
+
+    public Appointment(LocalDateTime parse, Dentist tony, Patient gillian, Surgery s15) {
+    }
 }

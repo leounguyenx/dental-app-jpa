@@ -27,4 +27,7 @@ public class Surgery {
     // A surgery has many appointments
     @OneToMany(mappedBy = "surgeryId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Appointment> appointments;
+
+    public Surgery(String surgeryId) {
+    }
 }

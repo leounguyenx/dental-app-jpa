@@ -34,5 +34,6 @@ public class Patient {
     private List<Request> requests;
 
 
-
+    public Patient(String patientId, String patientName) {
+    }
 }
