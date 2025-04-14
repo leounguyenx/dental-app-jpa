@@ -23,7 +23,7 @@ public class Patient {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", unique = true, nullable = true)
-    private Address primaryAddress;
+    private Address address;
 
     // A patient has many appointments
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -33,6 +33,14 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Request> requests;
 
+    public Patient(String firstName, String lastName, String email, String phone, String dob, Address address ) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.dob = dob;
+        this.address = address;
+    }
 
     public Patient(String patientId, String patientName) {
     }

@@ -16,7 +16,12 @@ public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long requestId;
-    private LocalDate requestDate;
+    private String requestDate;
+
+    public Request(String requestDate, Patient patient) {
+        this.requestDate = requestDate;
+        this.patient = patient;
+    }
 
     // Many requests have a patient
     @ManyToOne

@@ -17,7 +17,14 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
-    private LocalDate appointmentDate;
+    private String appointmentDate;
+
+    // An appointment is created from a request
+    public Appointment(String appointmentDate, Request request, Dentist dentist) {
+        this.appointmentDate = appointmentDate;
+        this.request = request;
+        this.dentist = dentist;
+    }
 
     // An appointment has a surgery
     @ManyToOne
@@ -39,6 +46,4 @@ public class Appointment {
     @JoinColumn(name = "request_id", unique = true, nullable = true)
     private Request request;
 
-    public Appointment(LocalDateTime parse, Dentist tony, Patient gillian, Surgery s15) {
-    }
 }

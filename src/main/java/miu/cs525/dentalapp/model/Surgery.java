@@ -28,6 +28,12 @@ public class Surgery {
     @OneToMany(mappedBy = "surgeryId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 
+    public Surgery(String surgeryName, String phoneNumber, Address address) {
+        this.surgeryName = surgeryName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
     public Surgery(String surgeryId) {
     }
 }

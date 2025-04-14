@@ -1,17 +1,16 @@
 package miu.cs525.dentalapp;
 
 import miu.cs525.dentalapp.model.*;
-import miu.cs525.dentalapp.repository.AppointmentRepository;
-import miu.cs525.dentalapp.repository.DentistRepository;
-import miu.cs525.dentalapp.repository.PatientRepository;
-import miu.cs525.dentalapp.repository.SurgeryRepository;
+import miu.cs525.dentalapp.repository.*;
 import miu.cs525.dentalapp.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +26,7 @@ public class DentalAppApplication {
     private final RequestService requestService;
     private final SurgeryService surgeryService;
 
+
     public DentalAppApplication(PatientService patientService, DentistService dentistService, AddressService addressService, AppointmentService appointmentService, RequestService requestService, SurgeryService surgeryService) {
         this.patientService = patientService;
         this.dentistService = dentistService;
@@ -34,6 +34,7 @@ public class DentalAppApplication {
         this.appointmentService = appointmentService;
         this.requestService = requestService;
         this.surgeryService = surgeryService;
+
     }
 
 
@@ -47,40 +48,57 @@ public class DentalAppApplication {
             PatientRepository patientRepo,
             DentistRepository dentistRepo,
             SurgeryRepository surgeryRepo,
-            AppointmentRepository appointmentRepo
+            AppointmentRepository appointmentRepo,
+            AddressRepository addressRepo,
+            RequestRepository requestRepo
     ) {
         return args -> {
-            // Create Dentists
-            Dentist tony = new Dentist("Tony Smith");
-            Dentist helen = new Dentist("Helen Pearson");
-            Dentist robin = new Dentist("Robin Plevin");
+            // ----- Addresses -----
+            Address address1 = new Address(1, "123 Main St", "London", "LON123");
+            Address address2 = new Address(2, "456 Queen Rd", "London", "LON456");
+            Address address3 = new Address(3, "789 Oxford Ave", "London", "LON789");
+            addressRepo.saveAll(List.of(address1, address2, address3));
 
+            // ----- Dentists -----
+            Dentist tony = new Dentist("Tony", "Smith", "tony.smith@example.com", "555-1111", "Orthodontics");
+            Dentist helen = new Dentist("Helen", "Pearson", "helen.pearson@example.com", "555-2222", "General");
+            Dentist robin = new Dentist("Robin", "Plevin", "robin.plevin@example.com", "555-3333", "Cosmetic");
             dentistRepo.saveAll(List.of(tony, helen, robin));
 
-            // Create Patients
-            Patient gillian = new Patient("P100", "Gillian White");
-            Patient jill = new Patient("P105", "Jill Bell");
-            Patient ian = new Patient("P108", "Ian MacKay");
-            Patient john = new Patient("P110", "John Walker");
+            // ----- Surgeries -----
+            Surgery s10 = new Surgery("S10", "020-000-1010", address1);
+            Surgery s13 = new Surgery("S13", "020-000-1013", address2);
+            Surgery s15 = new Surgery("S15", "020-000-1015", address3);
+            surgeryRepo.saveAll(List.of(s10, s13, s15));
+
+            // ----- Patients -----
+            Patient gillian = new Patient("P100", "Gillian", "White", "gillian@example.com", "070-111-1111", address1);
+            Patient jill = new Patient("P105", "Jill", "Bell", "jill@example.com", "070-222-2222", address2);
+            Patient ian = new Patient("P108", "Ian", "MacKay", "ian@example.com", "070-333-3333", address3);
+            Patient john = new Patient("P110", "John", "Walker", "john@example.com", "070-444-4444", address1);
 
             patientRepo.saveAll(List.of(gillian, jill, ian, john));
 
-            // Create Surgeries
-            Surgery s10 = new Surgery("S10");
-            Surgery s13 = new Surgery("S13");
-            Surgery s15 = new Surgery("S15");
+            // ----- Requests -----
+            Request r1 = new Request("12-Sep-13", gillian);
+            Request r2 = new Request("12-Sep-13", jill);
+            Request r3 = new Request("12-Sep-13", ian);
+            Request r4 = new Request("14-Sep-13", ian);
+            Request r5 = new Request("14-Sep-13", jill);
+            Request r6 = new Request("15-Sep-13", john);
 
-            surgeryRepo.saveAll(List.of(s10, s13, s15));
+            requestRepo.saveAll(List.of(r1, r2, r3, r4, r5, r6));
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yy HH.mm", Locale.ENGLISH);
+            // ----- Appointments -----
 
-            // Create Appointments
-            Appointment a1 = new Appointment(LocalDateTime.parse("12-Sep-13 10.00", formatter), tony, gillian, s15);
-            Appointment a2 = new Appointment(LocalDateTime.parse("12-Sep-13 12.00", formatter), tony, jill, s15);
-            Appointment a3 = new Appointment(LocalDateTime.parse("12-Sep-13 10.00", formatter), helen, ian, s10);
-            Appointment a4 = new Appointment(LocalDateTime.parse("14-Sep-13 14.00", formatter), helen, ian, s10);
-            Appointment a5 = new Appointment(LocalDateTime.parse("14-Sep-13 16.30", formatter), robin, jill, s15);
-            Appointment a6 = new Appointment(LocalDateTime.parse("15-Sep-13 18.00", formatter), robin, john, s13);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yy", Locale.ENGLISH);
+
+            Appointment a1 = new Appointment("12-Sep-13", r1, tony);
+            Appointment a2 = new Appointment("12-Sep-13", r2, tony);
+            Appointment a3 = new Appointment("12-Sep-13", r3, helen);
+            Appointment a4 = new Appointment("14-Sep-13", r4, helen);
+            Appointment a5 = new Appointment("14-Sep-13", r5, robin);
+            Appointment a6 = new Appointment("15-Sep-13", r6, robin);
 
             appointmentRepo.saveAll(List.of(a1, a2, a3, a4, a5, a6));
         };
