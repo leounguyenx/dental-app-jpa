@@ -33,15 +33,13 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Request> requests;
 
-    public Patient(String firstName, String lastName, String email, String phone, String dob, Address address ) {
+    public Patient(String patientId,String firstName, String lastName, String email, String phone, String dob, Address address ) {
+        this.patientId = patientId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.dob = dob;
         this.address = address;
-    }
-
-    public Patient(String patientId, String patientName) {
     }
 }

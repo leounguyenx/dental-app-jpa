@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private Integer addressId; //address_id
+    private Long addressId; //address_id
     private String street;
     private String city;
     @Column(length = 16)
@@ -22,8 +22,7 @@ public class Address {
     @OneToOne(mappedBy = "address")
     private Patient patient;
 
-    public Address(Integer addressId, String street, String city, String zipCode) {
-        this.addressId = addressId;
+    public Address(String street, String city, String zipCode) {
         this.street = street;
         this.city = city;
         this.zipCode = zipCode;

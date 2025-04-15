@@ -15,7 +15,7 @@ import java.util.List;
 public class Surgery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String surgeryId;
+    private Long surgeryId;
     private String surgeryName;
     private String phoneNumber;
 
@@ -32,8 +32,5 @@ public class Surgery {
         this.surgeryName = surgeryName;
         this.phoneNumber = phoneNumber;
         this.address = address;
-    }
-
-    public Surgery(String surgeryId) {
     }
 }

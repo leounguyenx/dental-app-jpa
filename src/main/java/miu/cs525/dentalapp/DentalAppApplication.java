@@ -1,5 +1,6 @@
 package miu.cs525.dentalapp;
 
+import miu.cs525.dentalapp.dto.request.*;
 import miu.cs525.dentalapp.model.*;
 import miu.cs525.dentalapp.repository.*;
 import miu.cs525.dentalapp.service.*;
@@ -19,25 +20,6 @@ import java.util.concurrent.Flow;
 @SpringBootApplication
 public class DentalAppApplication {
 
-    private final PatientService patientService;
-    private final DentistService dentistService;
-    private final AddressService addressService;
-    private final AppointmentService appointmentService;
-    private final RequestService requestService;
-    private final SurgeryService surgeryService;
-
-
-    public DentalAppApplication(PatientService patientService, DentistService dentistService, AddressService addressService, AppointmentService appointmentService, RequestService requestService, SurgeryService surgeryService) {
-        this.patientService = patientService;
-        this.dentistService = dentistService;
-        this.addressService = addressService;
-        this.appointmentService = appointmentService;
-        this.requestService = requestService;
-        this.surgeryService = surgeryService;
-
-    }
-
-
     public static void main(String[] args) {
         SpringApplication.run(DentalAppApplication.class, args);
         System.out.println("Dental App is running...");
@@ -45,81 +27,52 @@ public class DentalAppApplication {
 
     @Bean
     CommandLineRunner runner(
-            PatientRepository patientRepo,
-            DentistRepository dentistRepo,
-            SurgeryRepository surgeryRepo,
-            AppointmentRepository appointmentRepo,
-            AddressRepository addressRepo,
-            RequestRepository requestRepo
     ) {
         return args -> {
-            // ----- Addresses -----
-            Address address1 = new Address(1, "123 Main St", "London", "LON123");
-            Address address2 = new Address(2, "456 Queen Rd", "London", "LON456");
-            Address address3 = new Address(3, "789 Oxford Ave", "London", "LON789");
-            addressRepo.saveAll(List.of(address1, address2, address3));
 
-            // ----- Dentists -----
-            Dentist tony = new Dentist("Tony", "Smith", "tony.smith@example.com", "555-1111", "Orthodontics");
-            Dentist helen = new Dentist("Helen", "Pearson", "helen.pearson@example.com", "555-2222", "General");
-            Dentist robin = new Dentist("Robin", "Plevin", "robin.plevin@example.com", "555-3333", "Cosmetic");
-            dentistRepo.saveAll(List.of(tony, helen, robin));
+            // Create PatientRequestDto
+            PatientRequestDto patientRequestDto1 = new PatientRequestDto(
+                    "P100", "Gillian", "White", "gillian@example.com", "070-111-1111",
+                    new AddressRequestDto("123 Main St", "London", "123912")
+            );
+            PatientRequestDto patientRequestDto2 = new PatientRequestDto(
+                    "P105", "Jill", "Bell", "jill@example.com", "070-222-2222",
+                    new AddressRequestDto("456 Queen Rd", "London", "912313")
+            );
+            PatientRequestDto patientRequestDto3 = new PatientRequestDto(
+                    "P108", "Ian", "MacKay", "ian@example.com", "070-333-3333",
+                    new AddressRequestDto("789 Oxford Ave", "London", "123123")
+            );
 
-            // ----- Surgeries -----
-            Surgery s10 = new Surgery("S10", "020-000-1010", address1);
-            Surgery s13 = new Surgery("S13", "020-000-1013", address2);
-            Surgery s15 = new Surgery("S15", "020-000-1015", address3);
-            surgeryRepo.saveAll(List.of(s10, s13, s15));
+            // Create DentistRequestDto
+            DentistRequestDto dentistRequestDto1 = new DentistRequestDto("Tony", "Smith", "tony.smith@example.com", "555-1111", "Orthodontics");
+            DentistRequestDto dentistRequestDto2 = new DentistRequestDto("Helen", "Pearson", "helen.pearson@example.com", "555-2222", "General");
+            DentistRequestDto dentistRequestDto3 = new DentistRequestDto("Robin", "Plevin", "robin.plevin@example.com", "555-3333", "Cosmetic");
 
-            // ----- Patients -----
-            Patient gillian = new Patient("P100", "Gillian", "White", "gillian@example.com", "070-111-1111", address1);
-            Patient jill = new Patient("P105", "Jill", "Bell", "jill@example.com", "070-222-2222", address2);
-            Patient ian = new Patient("P108", "Ian", "MacKay", "ian@example.com", "070-333-3333", address3);
-            Patient john = new Patient("P110", "John", "Walker", "john@example.com", "070-444-4444", address1);
 
-            patientRepo.saveAll(List.of(gillian, jill, ian, john));
+            // Create SurgeryRequestDto
+            SurgeryRequestDto surgeryRequestDto1 = new SurgeryRequestDto("S10", "020-000-1010",
+                    new AddressRequestDto("123 Main St", "Berlin", "123123"));
+            SurgeryRequestDto surgeryRequestDto2 = new SurgeryRequestDto("S13", "020-000-1013",
+                    new AddressRequestDto("123 Jude Rd", "Alabama", "12325"));
+            SurgeryRequestDto surgeryRequestDto3 = new SurgeryRequestDto("S15", "020-000-1015",
+                    new AddressRequestDto("1000 Abc Rd", "Iowa", "34344"));
 
-            // ----- Requests -----
-            Request r1 = new Request("12-Sep-13", gillian);
-            Request r2 = new Request("12-Sep-13", jill);
-            Request r3 = new Request("12-Sep-13", ian);
-            Request r4 = new Request("14-Sep-13", ian);
-            Request r5 = new Request("14-Sep-13", jill);
-            Request r6 = new Request("15-Sep-13", john);
+            // Create RequestRequestDto
+            RequestRequestDto requestRequestDto1 = new RequestRequestDto("12-Sep-13", patientRequestDto1);
+            RequestRequestDto requestRequestDto2 = new RequestRequestDto("12-Sep-13", patientRequestDto2);
+            RequestRequestDto requestRequestDto3 = new RequestRequestDto("12-Sep-13", patientRequestDto3);
+            RequestRequestDto requestRequestDto4 = new RequestRequestDto("14-Sep-13", patientRequestDto3);
+            RequestRequestDto requestRequestDto5 = new RequestRequestDto("14-Sep-13", patientRequestDto2);
+            RequestRequestDto requestRequestDto6 = new RequestRequestDto("15-Sep-13", patientRequestDto1);
 
-            requestRepo.saveAll(List.of(r1, r2, r3, r4, r5, r6));
-
-            // ----- Appointments -----
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yy", Locale.ENGLISH);
-
-            Appointment a1 = new Appointment("12-Sep-13", r1, tony);
-            Appointment a2 = new Appointment("12-Sep-13", r2, tony);
-            Appointment a3 = new Appointment("12-Sep-13", r3, helen);
-            Appointment a4 = new Appointment("14-Sep-13", r4, helen);
-            Appointment a5 = new Appointment("14-Sep-13", r5, robin);
-            Appointment a6 = new Appointment("15-Sep-13", r6, robin);
-
-            appointmentRepo.saveAll(List.of(a1, a2, a3, a4, a5, a6));
+            // Create AppointmentRequestDto
+            AppointmentRequestDto appointmentRequestDto = new AppointmentRequestDto("12-Sep-13",
+                    surgeryRequestDto3, patientRequestDto1, dentistRequestDto1);
+            AppointmentRequestDto appointmentRequestDto1 = new AppointmentRequestDto("12-Sep-13",
+                    surgeryRequestDto1, patientRequestDto2, dentistRequestDto2);
+            AppointmentRequestDto appointmentRequestDto2 = new AppointmentRequestDto("12-Sep-15",
+                    surgeryRequestDto2, patientRequestDto3, dentistRequestDto3);
         };
-    }
-
-    private Patient addNewPatient(Patient patient) {
-        return patientService.addNewPatient(patient);
-    }
-
-    private Request addNewRequest(Request request) {
-        return requestService.addNewRequest(request);
-    }
-
-    private Dentist addNewDentist(Dentist dentist) {
-        return dentistService.addNewDentist(dentist);
-    }
-
-    private Surgery addNewSurgery(Surgery surgery) {
-        return surgeryService.addNewSurgery(surgery);
-    }
-    private Appointment addNewAppointment(Appointment appointment) {
-        return appointmentService.addNewAppointment(appointment);
     }
 }
