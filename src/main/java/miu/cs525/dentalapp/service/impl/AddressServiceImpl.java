@@ -1,5 +1,7 @@
 package miu.cs525.dentalapp.service.impl;
 
+import miu.cs525.dentalapp.dto.request.AddressRequestDto;
+import miu.cs525.dentalapp.dto.response.AddressResponseDto;
 import miu.cs525.dentalapp.model.Address;
 import miu.cs525.dentalapp.repository.AddressRepository;
 import miu.cs525.dentalapp.service.AddressService;
@@ -19,7 +21,9 @@ public class AddressServiceImpl implements AddressService {
 
 
     @Override
-    public Address addNewAddress(Address address) {
-        return addressRepository.save(address);
+    public AddressResponseDto addNewAddress(AddressRequestDto addressRequestDto) {
+        Address address = new Address(addressRequestDto.street(), addressRequestDto.city(), addressRequestDto.zipCode());
+        Address savedAddress = addressRepository.save(address);
+        return new AddressResponseDto(savedAddress.getStreet(), savedAddress.getCity(), savedAddress.getZipCode());
     }
 }

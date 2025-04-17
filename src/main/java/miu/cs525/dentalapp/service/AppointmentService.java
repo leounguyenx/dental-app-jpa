@@ -1,7 +1,8 @@
 package miu.cs525.dentalapp.service;
 
-import miu.cs525.dentalapp.model.Appointment;
+import miu.cs525.dentalapp.dto.request.AppointmentRequestDto;
+import miu.cs525.dentalapp.dto.response.AppointmentResponseDto;
 
 public interface AppointmentService {
-    Appointment addNewAppointment(Appointment appointment);
+    AppointmentResponseDto addNewAppointment(AppointmentRequestDto appointmentRequestDto);
 }

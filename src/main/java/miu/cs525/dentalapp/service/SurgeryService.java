@@ -1,7 +1,8 @@
 package miu.cs525.dentalapp.service;
 
-import miu.cs525.dentalapp.model.Surgery;
+import miu.cs525.dentalapp.dto.request.SurgeryRequestDto;
+import miu.cs525.dentalapp.dto.response.SurgeryResponseDto;
 
 public interface SurgeryService {
-    Surgery addNewSurgery(Surgery surgery);
+    SurgeryResponseDto addNewSurgery(SurgeryRequestDto surgeryRequestDto);
 }

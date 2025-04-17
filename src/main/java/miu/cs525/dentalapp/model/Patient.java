@@ -33,7 +33,7 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Request> requests;
 
-    public Patient(String patientId,String firstName, String lastName, String email, String phone, String dob, Address address ) {
+    public Patient(String patientId,String firstName, String lastName, String email, String phone, String dob, Address address) {
         this.patientId = patientId;
         this.firstName = firstName;
         this.lastName = lastName;

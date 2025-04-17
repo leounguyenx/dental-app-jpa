@@ -1,7 +1,8 @@
 package miu.cs525.dentalapp.service;
 
-import miu.cs525.dentalapp.model.Address;
+import miu.cs525.dentalapp.dto.request.AddressRequestDto;
+import miu.cs525.dentalapp.dto.response.AddressResponseDto;
 
 public interface AddressService {
-    Address addNewAddress(Address address);
+    AddressResponseDto addNewAddress(AddressRequestDto addressRequestDto);
 }

@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -19,17 +16,10 @@ public class Appointment {
     private Long appointmentId;
     private String appointmentDate;
 
-    // An appointment is created from a request
-    public Appointment(String appointmentDate, Request request, Dentist dentist) {
-        this.appointmentDate = appointmentDate;
-        this.request = request;
-        this.dentist = dentist;
-    }
-
     // An appointment has a surgery
     @ManyToOne
     @JoinColumn(name = "surgery_id")
-    private Surgery surgeryId;
+    private Surgery surgery;
 
     //An appointment has a patient
     @ManyToOne

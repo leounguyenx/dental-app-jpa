@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -22,9 +20,9 @@ public class Dentist {
     private String phone;
     private String specialization;
 
-    // A dentist has many appointments
-    @OneToMany(mappedBy = "dentist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Appointment> appointments;
+//    // A dentist has many appointments
+//    @OneToMany(mappedBy = "dentist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Appointment> appointments;
 
     public Dentist(String firstName, String lastName, String email, String phone, String specialization) {
         this.firstName = firstName;

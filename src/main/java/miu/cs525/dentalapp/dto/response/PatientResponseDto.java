@@ -1,5 +1,7 @@
 package miu.cs525.dentalapp.dto.response;
 
+import miu.cs525.dentalapp.model.Address;
+
 public record PatientResponseDto(
         String patientId,
         String firstName,
@@ -7,6 +9,6 @@ public record PatientResponseDto(
         String email,
         String phone,
         String dob,
-        miu.cs525.dentalapp.model.Address address
+        Address address
 ) {
 }

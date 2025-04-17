@@ -6,6 +6,7 @@ public record PatientRequestDto(
         String lastName,
         String email,
         String phone,
+        String dob,
         AddressRequestDto addressRequestDto
 ) {
 }

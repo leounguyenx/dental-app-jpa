@@ -14,8 +14,7 @@ import java.util.List;
 @Table(name = "surgeries")
 public class Surgery {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long surgeryId;
+    private String surgeryId;
     private String surgeryName;
     private String phoneNumber;
 
@@ -28,7 +27,8 @@ public class Surgery {
     @OneToMany(mappedBy = "surgeryId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 
-    public Surgery(String surgeryName, String phoneNumber, Address address) {
+    public Surgery(String surgeryId, String surgeryName, String phoneNumber, Address address) {
+        this.surgeryId = surgeryId;
         this.surgeryName = surgeryName;
         this.phoneNumber = phoneNumber;
         this.address = address;

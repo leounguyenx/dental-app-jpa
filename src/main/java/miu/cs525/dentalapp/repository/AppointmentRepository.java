@@ -3,5 +3,5 @@ package miu.cs525.dentalapp.repository;
 import miu.cs525.dentalapp.model.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+public interface AppointmentRepository extends JpaRepository<Appointment, String> {
 }

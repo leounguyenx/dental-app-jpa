@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -15,18 +13,17 @@ import java.time.LocalDate;
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long requestId;
+    private String requestId;
     private String requestDate;
+    private String patientId;
 
-    public Request(String requestDate, Patient patient) {
+    public Request(String requestDate, String patientId) {
         this.requestDate = requestDate;
-        this.patient = patient;
+        this.patientId = patientId;
     }
 
     // Many requests have a patient
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
-
-
 }
